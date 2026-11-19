@@ -1,9 +1,20 @@
 <!doctype html>
 <html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Админ | ICD‑10 лавлах</title><meta name="robots" content="noindex,nofollow"><style>
 :root{--ink:#142b38;--teal:#135d67;--light:#f1f7f8;--line:#dbe8eb;--muted:#61717c}*{box-sizing:border-box}body{margin:0;font:14px/1.55 Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:#f3f7fa}input,textarea,select,button{font:inherit}button{cursor:pointer}header{background:linear-gradient(110deg,#104a54,#1d7480);color:#fff;padding:20px 25px}header .top{max-width:1250px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}header h1{font-size:23px;margin:0}header p{color:#d5ecee;margin:3px 0}.pill{background:#ffffff25;border:1px solid #ffffff30;border-radius:99px;padding:6px 12px;font-size:12px}a{color:#08757c}.headlink{color:white;text-decoration:none;font-weight:700}main{max-width:1250px;margin:25px auto;padding:0 22px 70px}.mainlayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:18px}.panel{background:white;border-radius:16px;border:1px solid var(--line);box-shadow:0 5px 16px #153a4908}.sidebar{padding:12px;align-self:start;position:sticky;top:15px}.nav{display:block;width:100%;text-align:left;border:0;background:transparent;border-radius:11px;padding:14px 12px;margin:2px 0;color:#364e5c;font-weight:700}.nav:hover{background:#f1f8f9}.nav.active{background:#e1f3f2;color:#075c61}.workspace{padding:25px}.workspace h2{font-size:23px;margin:0}.sectiondesc{color:var(--muted);margin:6px 0 20px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.btn{border:1px solid #cfdce1;border-radius:10px;padding:10px 15px;background:white;font-weight:750;color:#224453}.btn:hover{background:#edf7f8}.btn.primary{background:#0d6570;color:white;border-color:#0d6570}.btn.danger{color:#b42e48;border-color:#f3c6d0}.btn:disabled{opacity:.45;cursor:not-allowed}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}.field label{font-size:12px;color:#445e6d;font-weight:750}.field input,.field textarea,.field select{width:100%;border-radius:10px;border:1px solid #cedee4;padding:11px;background:white;color:#102c3c;outline:none;line-height:1.4}.field textarea{min-height:86px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#117e8a;box-shadow:0 0 0 3px #117e8a1c}.fields2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.subgrid{display:grid;grid-template-columns: minmax(200px,.85fr) minmax(0,1.8fr);gap:16px}.selectlist{height:480px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:6px}.listbutton{border:none;display:block;width:100%;text-align:left;background:white;border-radius:9px;padding:10px;margin-bottom:3px;color:#283e4c;line-height:1.4}.listbutton:hover{background:#f2f6f9}.listbutton.active{background:#e1f3f2;color:#05616a;font-weight:750}.editor{border:1px solid var(--line);padding:17px;border-radius:12px;min-width:0}.muted{color:var(--muted)}.hint{color:var(--muted);font-size:12px}.status{margin:0 0 15px;padding:12px 15px;border:1px solid #cce2e5;background:#eaf5f6;border-radius:11px}.status.error{background:#fff2f1;border-color:#ffb6b3;color:#a62f32}.status.success{background:#eaf8f0;border-color:#a0d5b9;color:#197044}.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px;max-height:210px;overflow:auto;padding:10px;border:1px solid var(--line);border-radius:11px;background:#fafcfd}.chips label{display:flex;gap:8px;align-items:flex-start;font-size:12px}.colorinput{max-width:120px;min-height:46px}.swatch{display:inline-block;width:25px;height:25px;border-radius:6px;border:1px solid #d1e0e2;vertical-align:middle}.divider{margin:20px 0;border:0;border-top:1px solid var(--line)}.small{font-size:12px}.eyebrow{color:#11727c;font-size:11px;font-weight:800;letter-spacing:1.7px}.empty{padding:40px;text-align:center;color:var(--muted)}#notice:empty{display:none}#dirty{color:#ffde9a;font-weight:700;font-size:12px}#dirty.saved{color:#b7eccc}.preview{border-radius:12px;padding:24px;color:white;min-height:118px}.preview strong{font-size:26px}.history{border-collapse:collapse;width:100%}.history td,.history th{padding:12px 8px;text-align:left;border-bottom:1px solid var(--line)}.history th{font-size:12px;color:var(--muted)}@media(max-width:850px){.mainlayout{display:block}.sidebar{position:static;display:flex;flex-wrap:wrap;margin-bottom:16px}.nav{width:auto}.workspace{padding:16px}.subgrid,.fields2{grid-template-columns:1fr}.selectlist{height:190px}header{padding:16px}}
+
+main[hidden],#loginPanel[hidden],#adminControls[hidden]{display:none!important}
+#loginPanel{max-width:480px;margin:60px auto;padding:0 20px}
+.loginCard{background:#fff;border:1px solid var(--line);border-radius:19px;padding:30px;box-shadow:0 10px 35px #173f5112}
+.loginCard h2{font-size:24px;margin:0 0 8px}
+.loginCard p{color:var(--muted);margin:0 0 24px}
+.loginCard label{display:block;font-weight:700;margin-bottom:7px}
+.loginCard input{width:100%;padding:14px;border:1px solid #c6d8db;border-radius:10px;font-size:17px;letter-spacing:.4px}
+.loginCard button{width:100%;margin-top:14px}
+.loginCard #loginMsg{margin:14px 0 0;font-size:13px;color:#b42e48}
 </style></head><body>
-<header><div class="top"><div><div class="eyebrow" style="color:#b6e9e5">УДИРДЛАГЫН САМБАР</div><h1>ICD‑10 лавлах · Админ</h1><p>Загвар, ангилал, эм, ICD‑10 код, холбоос засварлах</p></div><div class="row"><span id="dirty" class="saved">Хадгалсан хувилбар</span><a class="headlink" href="/" target="_blank" rel="noopener">Нийтийн сайт ↗</a><button id="save" class="btn primary" disabled>Өөрчлөлт нийтлэх</button></div></div></header>
-<main><div id="notice"></div><div class="mainlayout"><aside class="panel sidebar" id="nav"><button class="nav active" data-tab="settings">🎨 Загвар ба текст</button><button class="nav" data-tab="categories">☷ 9 ангилал</button><button class="nav" data-tab="products">💊 Эмийн бүтээгдэхүүн</button><button class="nav" data-tab="diagnoses">🩺 Оношийн код</button><button class="nav" data-tab="history">◷ Өөрчлөлтийн түүх</button></aside><section class="panel workspace" id="workspace"><div class="empty">Мэдээллийг ачаалж байна…</div></section></div></main>
+<header><div class="top"><div><div class="eyebrow" style="color:#b6e9e5">УДИРДЛАГЫН САМБАР</div><h1>ICD‑10 лавлах · Админ</h1><p>Загвар, ангилал, эм, ICD‑10 код, холбоос засварлах</p></div><div class="row" id="adminControls" hidden><span id="dirty" class="saved">Хадгалсан хувилбар</span><a class="headlink" href="/" target="_blank" rel="noopener">Нийтийн сайт ↗</a><button id="save" class="btn primary" disabled>Өөрчлөлт нийтлэх</button><button id="logout" class="btn">Гарах</button></div></div></header>
+<section id="loginPanel"><div class="loginCard"><div class="eyebrow">АДМИН НЭВТРЭЛТ</div><h2>Нууц кодоор нэвтрэх</h2><p>Өөрийн нууц кодыг оруулна. Бүтээгдэхүүн, ICD‑10 оношийн мэдээллийг зөвхөн админ засварлана.</p><form id="loginForm"><label for="loginCode">Админы нууц код</label><input id="loginCode" name="passcode" type="password" autocomplete="current-password" minlength="16" maxlength="128" required placeholder="Нууц кодоо оруулна уу"><button type="submit" id="loginButton" class="btn primary">Нэвтрэх</button></form><div id="loginMsg" role="alert"></div></div></section>
+<main id="adminMain" hidden><div id="notice"></div><div class="mainlayout"><aside class="panel sidebar" id="nav"><button class="nav active" data-tab="settings">🎨 Загвар ба текст</button><button class="nav" data-tab="categories">☷ 9 ангилал</button><button class="nav" data-tab="products">💊 Эмийн бүтээгдэхүүн</button><button class="nav" data-tab="diagnoses">🩺 Оношийн код</button><button class="nav" data-tab="history">◷ Өөрчлөлтийн түүх</button></aside><section class="panel workspace" id="workspace"><div class="empty">Мэдээллийг ачаалж байна…</div></section></div></main>
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -50,8 +61,40 @@ async function renderHistory(){$('workspace').innerHTML=header('Өөрчлөлт
  }catch(e){$('workspace').innerHTML='<div class="status error">'+esc(e.message)+'</div>'}}
 $('nav').querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render();});
 $('save').onclick=async()=>{let button=$('save');button.disabled=true;button.textContent='Нийтэлж байна…';try{
- const r=await fetch('/admin/api/content',{method:'PUT',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({revision,data:state})});const obj=await r.json();if(!r.ok)throw new Error(obj.error||'Алдаа');revision=obj.revision;clean();notify('Амжилттай нийтлэгдлээ. Нийтийн сайтыг дахин ачаалбал өөрчлөлт харагдана.',false,true);
+ const r=await fetch('/admin/api/content',{method:'PUT',credentials:'same-origin',headers:{'content-type':'application/json','x-icd10-request':'1'},body:JSON.stringify({revision,data:state})});const obj=await r.json();if(!r.ok){if(r.status===401)showLogin('Нэвтрэх хугацаа дууссан. Кодоо дахин оруулна уу.');throw new Error(obj.error||'Алдаа');}revision=obj.revision;clean();notify('Амжилттай нийтлэгдлээ. Нийтийн сайтыг дахин ачаалбал өөрчлөлт харагдана.',false,true);
  }catch(e){notify(e.message,true);}finally{button.textContent='Өөрчлөлт нийтлэх';button.disabled=!dirty;}};
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
-(async()=>{try{const r=await fetch('/admin/api/content',{credentials:'same-origin',cache:'no-store'});let result=await r.json();if(!r.ok)throw new Error(result.error||'Нэвтрэх эрх шаардлагатай.');state=result.data;revision=result.revision;clean();render();}catch(e){$('workspace').innerHTML=`<div class="status error"><strong>Админ өгөгдлийг ачаалж чадсангүй.</strong><p>${esc(e.message)}</p><p>Cloudflare Access нэвтрэлт, D1 Binding, ADMIN_EMAIL, CF_ACCESS_AUD, CF_ACCESS_TEAM_DOMAIN тохиргоог шалгана уу.</p></div>`;notify('Тохиргоо дутуу эсвэл админ эрх баталгаажаагүй.',true);}})();
+
+function showLogin(message='') {
+ $('adminMain').hidden=true;
+ $('adminControls').hidden=true;
+ $('loginPanel').hidden=false;
+ $('loginMsg').textContent=message;
+}
+async function loadAdmin() {
+ try {
+  const r=await fetch('/admin/api/content',{credentials:'same-origin',cache:'no-store'});
+  const result=await r.json();
+  if(r.status===401){showLogin();return;}
+  if(!r.ok)throw new Error(result.error||'Нэвтрэх эрх эсвэл D1 тохиргоо буруу.');
+  state=result.data;revision=result.revision;clean();render();
+  $('adminMain').hidden=false;$('adminControls').hidden=false;$('loginPanel').hidden=true;
+ }catch(e){showLogin('Админ мэдээлэл ачаалах алдаа: '+e.message);}
+}
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();const button=$('loginButton');button.disabled=true;button.textContent='Шалгаж байна…';$('loginMsg').textContent='';
+ try{
+  const r=await fetch('/admin/api/login',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json','x-icd10-request':'1'},body:JSON.stringify({passcode:$('loginCode').value})});
+  const result=await r.json();if(!r.ok)throw new Error(result.error||'Нэвтрэх боломжгүй байна.');
+  $('loginCode').value='';await loadAdmin();
+ }catch(err){$('loginMsg').textContent=err.message;}
+ finally{button.disabled=false;button.textContent='Нэвтрэх';}
+});
+$('logout').onclick=async()=>{
+ if(dirty && !confirm('Нийтлээгүй өөрчлөлт байна. Гарах уу?'))return;
+ try{await fetch('/admin/api/logout',{method:'POST',credentials:'same-origin',headers:{'x-icd10-request':'1'}});}catch(_){}
+ state=null;dirty=false;showLogin('Системээс гарлаа.');
+};
+loadAdmin();
+
 </script></body></html>
