@@ -8,6 +8,10 @@ export function validateDocument(d) {
  if(!d||typeof d!=='object'||Array.isArray(d))return 'Өгөгдлийн бүтэц буруу.';
  const s=d.settings;
  if(!s||!val(s.title,120)||!opt(s.eyebrow,180)||!opt(s.subtitle,700)||!finiteColor(s.brand)||!finiteColor(s.brand2))return 'Сайтын текст/өнгийн тохиргоо буруу.';
+ // Backward compatible: old documents do not contain hero color settings.
+ for(const k of ['heroTitleColor','heroSubtitleColor','heroEyebrowColor','heroBadgeColor']){
+  if(s[k] !== undefined && !finiteColor(s[k]))return 'Дээд хэсгийн бичвэрийн өнгө буруу.';
+ }
  if(!Array.isArray(d.categories)||d.categories.length!==9||!unique(d.categories.map(c=>c.id)))return '9 ангилал хэвээр байх ёстой.';
  const expectedIds=['pain','digest','heart','breath','neuro','vitamin','kidney','skin','food'];
  if(!expectedIds.every(k=>d.categories.some(c=>c.id===k)))return 'Ангиллын үндсэн кодыг өөрчлөх боломжгүй.';
