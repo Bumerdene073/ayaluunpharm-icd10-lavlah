@@ -1,0 +1,14 @@
+ICD‑10 лавлах + админ, Cloudflare Pages / D1 / Access
+
+[ ] GitHub repository root: public/, functions/, data/, database/
+[ ] Pages: GitHub connection, Build command empty, Output directory public
+[ ] D1 database: icd10-lavlah
+[ ] Pages binding: variable DB -> database icd10-lavlah, Production; Redeploy
+[ ] Pages /api/content: categories 9, products 36, diagnoses 83
+[ ] Custom domain: icd10.kenko.mn
+[ ] Zero Trust Access: Self-hosted, icd10.kenko.mn/admin/*, Allow ONLY chosen email
+[ ] Pages environment variables: ADMIN_EMAIL, CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD; Redeploy
+[ ] Open icd10.kenko.mn/admin/ with allowed email, test Save
+[ ] Open public page, verify changed product URL
+
+All instructions: DEPLOY_GUIDE_MN.md
