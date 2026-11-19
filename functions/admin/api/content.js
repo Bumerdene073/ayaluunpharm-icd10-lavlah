@@ -1,4 +1,4 @@
-import {authenticate} from '../../_lib/auth.js';
+import {authenticate,checkSameOrigin} from '../../_lib/auth.js';
 import {getState,json} from '../../_lib/store.js';
 import {validateDocument} from '../../_lib/validate.js';
 export async function onRequestGet(context){
@@ -6,6 +6,7 @@ export async function onRequestGet(context){
  try{return json(await getState(context.env.DB));}catch(e){return json({error:'D1 тохиргоо эсвэл seed.sql буруу.'},503);}
 }
 export async function onRequestPut(context){
+ if (!checkSameOrigin(context)) return json({error:'Хүсэлтийн эх сурвалж баталгаажаагүй.'},403);
  const access=await authenticate(context);if(access.response)return access.response;
  const len=Number(context.request.headers.get('content-length')||'0');
  if(len>600000)return json({error:'Файлын хэмжээ хэтэрсэн.'},413);
