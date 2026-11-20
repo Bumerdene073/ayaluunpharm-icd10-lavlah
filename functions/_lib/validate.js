@@ -21,7 +21,21 @@ export function validateDocument(d) {
  for(const k of ['logoImage','heroBackgroundImage','pageBackgroundImage']){
   if(!mediaUrl(s[k]))return 'Зургийн холбоос зөвшөөрөгдөөгүй.';
  }
+ if(s.uiText!==undefined){
+  if(!s.uiText||typeof s.uiText!=='object'||Array.isArray(s.uiText)||Object.keys(s.uiText).length>100)return 'Бичвэрийн талбарын бүтэц буруу.';
+  for(const [key,text] of Object.entries(s.uiText))if(!/^[a-zA-Z][a-zA-Z0-9_]{0,50}$/.test(key)||typeof text!=='string'||text.length>2500)return 'Бичвэрийн утга хэт урт эсвэл буруу.';
+ }
+ if(s.badgeIcons!==undefined){
+  if(!s.badgeIcons||typeof s.badgeIcons!=='object'||Array.isArray(s.badgeIcons))return 'Шошгоны icon-ийн өгөгдөл буруу.';
+  for(const [key,img] of Object.entries(s.badgeIcons))if(!['indication','context','symptom','nutrition'].includes(key)||!mediaUrl(img))return 'Шошгоны icon холбоос буруу.';
+ }
  if(!font(s.fontFamily)||!font(s.headingFontFamily)||!within(s.baseFontSize,12,21)||!within(s.heroTitleSize,22,64)||!within(s.logoWidth,48,360)||!within(s.heroOverlay,0,85))return 'Фонт, хэмжээ эсвэл зурагны тохиргоо буруу.';
+ for(const key of ['heroSubtitleFontFamily','eyebrowFontFamily','sectionFontFamily','categoryFontFamily','diagnosisFontFamily','buttonFontFamily','badgeFontFamily','adminFontFamily']){
+  if(!font(s[key]))return 'Фонтын сонголт зөвшөөрөгдөөгүй.';
+ }
+ for(const [key,lo,hi] of [['heroSubtitleSize',11,24],['sectionTitleSize',14,30],['categoryTitleSize',11,22],['diagnosisFontSize',12,22],['buttonFontSize',11,20],['badgeFontSize',9,17]]){
+  if(!within(s[key],lo,hi))return 'Үсгийн хэмжээ зөвшөөрөгдөөгүй.';
+ }
  if(!Array.isArray(d.categories)||d.categories.length!==9||!unique(d.categories.map(c=>c.id)))return '9 ангилал хэвээр байх ёстой.';
  const expectedIds=['pain','digest','heart','breath','neuro','vitamin','kidney','skin','food'];
  if(!expectedIds.every(k=>d.categories.some(c=>c.id===k)))return 'Ангиллын үндсэн кодыг өөрчлөх боломжгүй.';
