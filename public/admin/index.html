@@ -17,15 +17,32 @@ main[hidden],#loginPanel[hidden],#adminControls[hidden]{display:none!important}
 .mediaRow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.mediaRow .previewImg{max-width:190px}
 .themeSection{margin:22px 0 13px;font-size:16px}.themeSummary{background:#e9f7f3;padding:11px 13px;border:1px solid #cbe6da;border-radius:10px}
 .preview{background-size:cover!important;background-position:center!important}
+.copyGroup{margin:20px 0 23px;border:1px solid #d8e5ea;border-radius:13px;padding:16px;background:#fbfdfd}
+.copyGroup h3{margin:0 0 13px;font-size:16px}.copyList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.copyList .field{margin:0}.copyList .field label{display:block;font-weight:700;margin-bottom:5px}.copyList textarea{min-height:90px;width:100%;resize:vertical}
+.copyList input{width:100%}.copySearch{width:100%;max-width:520px;padding:12px;border:1px solid #bad0d9;border-radius:10px}
+.mediaGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.mediaGrid .uploadZone{height:100%}
+.mediaGrid .previewImg{max-height:85px;max-width:110px}.mediaGrid .uploadZone>label{font-size:13px}
+.copyEmpty{padding:18px;color:#657d88}.copyGroup[hidden],[data-copy-row][hidden]{display:none!important}
+@media(max-width:870px){.copyList,.mediaGrid{grid-template-columns:1fr}}
+
+.fontDemo{border:1px solid #dae4e9;border-radius:12px;padding:17px;background:#fcfdfd;margin:13px 0 23px}
+.fontDemoTitle{font-size:18px;font-weight:800;margin-bottom:14px}
+.fontDemoGrid{display:flex;flex-wrap:wrap;align-items:center;gap:13px}
+.fontDemoGrid>div{background:#f0f7f8;border-radius:9px;padding:9px 12px}
+.fontDemoGrid>.btn{opacity:1;background:#f0f6f9;cursor:default}
+.fontDemoBadge{padding:6px 9px;border-radius:9px;background:#f0efff;color:#675ba6;font-weight:800}
 </style></head><body>
 <header><div class="top"><div><div class="eyebrow" style="color:#b6e9e5">УДИРДЛАГЫН САМБАР</div><h1>ICD‑10 лавлах · Админ</h1><p>Загвар, ангилал, эм, ICD‑10 код, холбоос засварлах</p></div><div class="row" id="adminControls" hidden><span id="dirty" class="saved">Хадгалсан хувилбар</span><a class="headlink" href="/" target="_blank" rel="noopener">Нийтийн сайт ↗</a><button id="save" class="btn primary" disabled>Өөрчлөлт нийтлэх</button><button id="logout" class="btn">Гарах</button></div></div></header>
 <section id="loginPanel"><div class="loginCard"><div class="eyebrow">АДМИН НЭВТРЭЛТ</div><h2>Нууц кодоор нэвтрэх</h2><p>Өөрийн нууц кодыг оруулна. Бүтээгдэхүүн, ICD‑10 оношийн мэдээллийг зөвхөн админ засварлана.</p><form id="loginForm"><label for="loginCode">Админы нууц код</label><input id="loginCode" name="passcode" type="password" autocomplete="current-password" minlength="16" maxlength="128" required placeholder="Нууц кодоо оруулна уу"><button type="submit" id="loginButton" class="btn primary">Нэвтрэх</button></form><div id="loginMsg" role="alert"></div></div></section>
-<main id="adminMain" hidden><div id="notice"></div><div class="mainlayout"><aside class="panel sidebar" id="nav"><button class="nav active" data-tab="settings">🎨 Загвар ба текст</button><button class="nav" data-tab="categories">☷ 9 ангилал</button><button class="nav" data-tab="products">💊 Эмийн бүтээгдэхүүн</button><button class="nav" data-tab="diagnoses">🩺 Оношийн код</button><button class="nav" data-tab="history">◷ Өөрчлөлтийн түүх</button></aside><section class="panel workspace" id="workspace"><div class="empty">Мэдээллийг ачаалж байна…</div></section></div></main>
+<main id="adminMain" hidden><div id="notice"></div><div class="mainlayout"><aside class="panel sidebar" id="nav"><button class="nav active" data-tab="settings">🎨 Загвар ба текст</button><button class="nav" data-tab="copy">✏️ Бүх бичвэр</button><button class="nav" data-tab="images">🖼️ Icon зургууд</button><button class="nav" data-tab="categories">☷ 9 ангилал</button><button class="nav" data-tab="products">💊 Эмийн бүтээгдэхүүн</button><button class="nav" data-tab="diagnoses">🩺 Оношийн код</button><button class="nav" data-tab="history">◷ Өөрчлөлтийн түүх</button></aside><section class="panel workspace" id="workspace"><div class="empty">Мэдээллийг ачаалж байна…</div></section></div></main>
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const icons=['bone','stomach','heart','lungs','brain','flask','kidney','skin','food'];
-const kinds={indication:'Заалттай холбоотой',context:'Заалтыг шалгах',symptom:'Шинж тэмдгийн үед',nutrition:'Шим тэжээлийн дэмжлэг'};
+const kinds={indication:'Заалттай холбоотой',context:'Заалт шалгах',symptom:'Шинж тэмдэг',nutrition:'Шим тэжээлийн дэмжлэг'};
+const UI_DEFAULTS={"heroBadge":"ӨОУА‑10 · Сонгомол кодын сан","categoriesHeading":"Эрхтэн тогтолцоо ба бүтээгдэхүүний ангилал","allCategoriesFilter":"9 ангиллаар шүүх","categoryAria":"Оношийн ангилал","searchPlaceholder":"ICD код, өвчний нэр эсвэл эмийн нэр...","searchAria":"Код нэр эмийн нэрээр хайх","resetButton":"Цэвэрлэх","productsButton":"Эмийн жагсаалт","csvButton":"CSV","printButton":"Хэвлэх","blocksHeading":"ICD‑10 кодын бүлгүүд","blocksAria":"Кодын бүлгээр шүүх","blocksDescription":"Эндхүү кодын бүлгүүд нь ӨОУА‑10-ын бүх код биш. Зөвхөн зурагт орсон бүтээгдэхүүнтэй холбогдох сонгомол оношуудыг харуулна.","allBlocksCode":"БҮГД","allBlocksName":"Бүх кодын бүлэг","allResultsHeading":"Бүх ангиллын оношийн кодууд","resultsSubtitle":"ICD‑10 кодын бүлэг, оношийн нэр, холбогдох бэлдмэл","resultsSearchSubtitle":"Хайлтын нөхцөлд тохирсон үр дүн","codeUnit":"код","columnCode":"Код","columnDiagnosis":"Өвчний нэр / тайлбар","columnRelation":"Холбооны төрөл","emptyTitle":"Тохирох код олдсонгүй.","emptyDescription":"Өөр код, өвчний нэр эсвэл эмийн нэрээр хайна уу.","kind_indication":"Заалттай холбоотой","kind_context":"Заалт шалгах","kind_symptom":"Шинж тэмдэг","kind_nutrition":"Шим тэжээлийн дэмжлэг","relatedProductsTitle":"Жагсаалтад байгаа холбоотой бүтээгдэхүүн:","pageShort":"х.","noteTitle":"Тайлбар:","diagnosisCaution":"Анхаарах нь: ICD‑10 код тухайн эмийг хэрэглэх шууд заалт биш. Онош, хавсарсан өвчин, заавар, жорын шаардлагыг эмч хянана.","copyCodeButton":"⧉ Код хуулах","diagnosisReference":"ICD‑10 лавлах ↗","copiedMessage":"Код хуулагдлаа:","productsDialogTitle":"Эмийн жагсаалт","productUnit":"бүтээгдэхүүн","originalListPage":"Эх жагсаалтын х.","diagnosisRelationUnit":"оноштой холбоотой","instructionsLink":"Заавар ↗","sourceCheck":"Эх сурвалж шалгах","closeDialogAria":"Хаах","clinicalTitle":"Эмнэлзүйн анхааруулга.","clinicalBody":"Энэхүү лавлах нь онош кодлоход туслах танин мэдэхүйн хувилбар. Кодтой холбогдсон бүтээгдэхүүн нь тухайн оношид заавал хэрэглэх, жорлох заалт гэсэн үг биш. Бодит хэрэглээг эмчийн шийдвэр, бүртгэлтэй хэрэглэх заавар, өвчтөний нас/эмгэг/шинжилгээ/эсрэг заалтаар шийднэ. Тэжээлийн бэлдмэлүүд эмийн үндсэн эмчилгээг орлохгүй. Бүрэн кодлолт, улсын даатгал, төлбөрийн тайланд ашиглахаасаа өмнө мэргэжлийн хяналт хийнэ.","sourcesTitle":"Мэдээллийн эх сурвалж","sourcesBody":"Монгол улсын ӨОУА‑10 нэршлийн систем; WHO ICD‑10 (2019); тухайн бүтээгдэхүүний үйлдвэрлэгч/борлуулагчийн заавар. Зарим холбоосыг дэмжих зорилготой бөгөөд бүх эмийн албан заалтыг нэг бүрчлэн баталгаажуулаагүй.","sourceIcdLabel":"Монгол ICD‑10 нэршил ↗","sourceWhoLabel":"ДЭМБ ICD‑10 ↗","sourceProductsLabel":"Бүтээгдэхүүний жагсаалт ↗","footerVersion":"Лавлахын хувилбар 1.0 · Өөрчлөх боломжтой веб лавлах","csvHeaderCategory":"Ангилал","csvHeaderBlock":"Кодын бүлэг","csvHeaderBlockName":"Бүлгийн тайлбар","csvHeaderCode":"Оношийн код","csvHeaderName":"Оношийн нэр","csvHeaderRelation":"Холбооны төрөл","csvHeaderProducts":"Холбогдох бүтээгдэхүүн","csvHeaderNote":"Тайлбар","csvReadyMessage":"CSV файл бэлтгэгдлээ"};
+const UI_GROUPS=[{"name":"Дээд хэсэг болон ангилал","fields":["heroBadge","categoriesHeading","allCategoriesFilter","categoryAria"]},{"name":"Хайлт, товчлуур, кодын бүлгүүд","fields":["searchPlaceholder","searchAria","resetButton","productsButton","csvButton","printButton","blocksHeading","blocksAria","blocksDescription","allBlocksCode","allBlocksName","allResultsHeading","resultsSubtitle","resultsSearchSubtitle","codeUnit","columnCode","columnDiagnosis","columnRelation","emptyTitle","emptyDescription"]},{"name":"Холбооны төрлийн шошго","fields":["kind_indication","kind_context","kind_symptom","kind_nutrition"]},{"name":"Оношийн дэлгэрэнгүй болон эмийн жагсаалт","fields":["relatedProductsTitle","pageShort","noteTitle","diagnosisCaution","copyCodeButton","diagnosisReference","copiedMessage","productsDialogTitle","productUnit","originalListPage","diagnosisRelationUnit","instructionsLink","sourceCheck","closeDialogAria"]},{"name":"Эмнэлзүйн анхааруулга болон эх сурвалж","fields":["clinicalTitle","clinicalBody","sourcesTitle","sourcesBody","sourceIcdLabel","sourceWhoLabel","sourceProductsLabel","footerVersion"]},{"name":"CSV экспорт болон системийн мэдэгдэл","fields":["csvHeaderCategory","csvHeaderBlock","csvHeaderBlockName","csvHeaderCode","csvHeaderName","csvHeaderRelation","csvHeaderProducts","csvHeaderNote","csvReadyMessage"]}];
 let state=null,revision=null, tab='settings', selectedCategory='pain', selectedProduct='', selectedDiagnosis='',dirty=false;
 function notify(s,error=false,success=false){$('notice').innerHTML=`<div class="status ${error?'error':success?'success':''}">${esc(s)}</div>`;if(success)setTimeout(()=>{if($('notice'))$('notice').innerHTML=''},6500);}
 function mark(){dirty=true;$('dirty').textContent='Нийтлээгүй засвар байна';$('dirty').classList.remove('saved');$('save').disabled=false;}
@@ -34,7 +51,7 @@ function header(title,subtitle,actions=''){return `<div class="row between"><div
 function field(label,key,value,opts={}){let component=opts.textarea?`<textarea data-key="${esc(key)}" ${opts.required?'required':''}>${esc(value)}</textarea>`:`<input data-key="${esc(key)}" type="${opts.type||'text'}" value="${esc(value)}" ${opts.required?'required':''} ${opts.placeholder?`placeholder="${esc(opts.placeholder)}"`:''}>`;return `<div class="field"><label>${label}</label>${component}</div>`;}
 function catName(id){return state.categories.find(c=>c.id===id)?.short||id;}
 function saveInputs(form,target){form.querySelectorAll('[data-key]').forEach(e=>{const v=e.type==='number'?Number(e.value):e.value;target[e.dataset.key]=v;});}
-function render(){if(!state)return;$('nav').querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));if(tab==='settings')renderSettings();if(tab==='categories')renderCategories();if(tab==='products')renderProducts();if(tab==='diagnoses')renderDiagnoses();if(tab==='history')renderHistory();}
+function render(){if(!state)return;$('nav').querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));if(tab==='settings')renderSettings();if(tab==='copy')renderCopy();if(tab==='images')renderImages();if(tab==='categories')renderCategories();if(tab==='products')renderProducts();if(tab==='diagnoses')renderDiagnoses();if(tab==='history')renderHistory();}
 function imageInput(label,key,value,kind='icon'){
  const img=value?`<img class="previewImg" src="${esc(value)}" alt="Зургийн урьдчилсан харагдац" loading="lazy">`:'<span class="hint">Зураг сонгоогүй байна.</span>';
  return `<div class="uploadZone"><label><strong>${label}</strong></label><div class="mediaRow">${img}</div><input type="file" accept="image/png,image/jpeg,image/webp" data-media-key="${esc(key)}" data-media-kind="${esc(kind)}" aria-label="${label}"><div class="hint">PNG, JPG эсвэл WEBP · Автоматаар жижигрүүлнэ · Нийтлэх хүртэл сайт дээр харагдахгүй</div><button class="btn" type="button" data-remove-media="${esc(key)}" ${value?'':'disabled'}>Зураг арилгах</button></div>`;
@@ -77,19 +94,70 @@ function wireMediaUpload(holder,target,rerender){
  });
  holder.querySelectorAll('[data-remove-media]').forEach(b=>b.onclick=()=>{target[b.dataset.removeMedia]='';mark();rerender()});
 }
+
+function renderCopy(){
+ const s=state.settings; if(!s.uiText||typeof s.uiText!=='object')s.uiText={};
+ const fields=UI_GROUPS.map(g=>`<section class="copyGroup" data-copy-group="${esc(g.name)}"><h3>${esc(g.name)}</h3><div class="copyList">${g.fields.map(k=>{
+  const current=Object.prototype.hasOwnProperty.call(s.uiText,k)?s.uiText[k]:UI_DEFAULTS[k];
+  const multiline=(k==='clinicalBody'||k==='sourcesBody'||k==='blocksDescription'||k==='diagnosisCaution'||k==='footerVersion');
+  return `<div class="field" data-copy-row="${esc(k)}" data-search-text="${esc(g.name+' '+UI_DEFAULTS[k]+' '+k)}"><label for="copy_${esc(k)}">${esc(UI_DEFAULTS[k])}</label>${multiline?`<textarea id="copy_${esc(k)}" data-copy-key="${esc(k)}" maxlength="2500">${esc(current)}</textarea>`:`<input id="copy_${esc(k)}" data-copy-key="${esc(k)}" maxlength="2500" value="${esc(current)}">`}<button class="btn" type="button" data-copy-reset="${esc(k)}">Анхны текст</button></div>`;
+ }).join('')}</div></section>`).join('');
+ $('workspace').innerHTML=header('Бүх бичвэр засах','Нийтийн сайт дээрх гарчиг, хүснэгтийн нэр, товчны текст, холбооны төрөл, тайлбар, анхааруулга, холбоосын нэрийг эндээс өөрчилнө. Ангилал, эм, оношийн өөрийн нэрс тус тусын цэсэнд байна.')+
+ `<div class="field"><label>Бичвэр хайх</label><input class="copySearch" id="copySearch" type="search" placeholder="Заалт шалгах, Холбооны төрөл, Тайлбар, Хэвлэх ..."></div>`+
+ `<p class="hint">Та бичвэрээ зассаны дараа дээд талын «Өөрчлөлт нийтлэх»-ийг дарна. Эмнэлзүйн анхааруулгыг арилгахгүй байхыг зөвлөе.</p>`+fields;
+ $('workspace').querySelectorAll('[data-copy-key]').forEach(el=>el.addEventListener('input',()=>{s.uiText[el.dataset.copyKey]=el.value;mark();}));
+ $('workspace').querySelectorAll('[data-copy-reset]').forEach(el=>el.onclick=()=>{delete s.uiText[el.dataset.copyReset];const inp=$('copy_'+el.dataset.copyReset);if(inp)inp.value=UI_DEFAULTS[el.dataset.copyReset];mark();});
+ $('copySearch').oninput=()=>{const q=$('copySearch').value.toLocaleLowerCase('mn-MN').trim();let shown=0;$('workspace').querySelectorAll('[data-copy-group]').forEach(group=>{let count=0;group.querySelectorAll('[data-copy-row]').forEach(row=>{const matched=!q||row.dataset.searchText.toLocaleLowerCase('mn-MN').includes(q)||row.querySelector('input,textarea').value.toLocaleLowerCase('mn-MN').includes(q);row.hidden=!matched;if(matched)count++;});group.hidden=!count;shown+=count;});};
+}
+function renderImages(){
+ if(!state.settings.badgeIcons||typeof state.settings.badgeIcons!=='object')state.settings.badgeIcons={};
+ $('workspace').innerHTML=header('Icon зургууд','9 эрхтэн тогтолцоо болон «Холбооны төрөл»-ийн дөрвөн шошгонд PNG / JPG / WEBP зураг upload хийж сольж болно.')+
+ '<h3 class="themeSection">9 эрхтэн тогтолцооны icon</h3><div class="mediaGrid">'+state.categories.map(cat=>`<div data-catref="${esc(cat.id)}">${imageInput(cat.short,'iconImage',cat.iconImage||'','icon')}</div>`).join('')+'</div>'+
+ '<h3 class="themeSection">Холбооны төрлийн шошгоны icon</h3><div class="mediaGrid">'+Object.keys(kinds).map(kind=>`<div data-badgeref="${esc(kind)}">${imageInput(state.settings.uiText?.['kind_'+kind]??UI_DEFAULTS['kind_'+kind],kind,state.settings.badgeIcons[kind]||'','icon')}</div>`).join('')+'</div>'+
+ '<p class="hint">Зураг upload хийсний дараа заавал «Өөрчлөлт нийтлэх» дарна. Зураггүй бол одоогийн системийн icon эсвэл текст хэвээр байна.</p>';
+ $('workspace').querySelectorAll('[data-catref]').forEach(el=>{const c=state.categories.find(x=>x.id===el.dataset.catref);wireMediaUpload(el,c,renderImages);});
+ $('workspace').querySelectorAll('[data-badgeref]').forEach(el=>{wireMediaUpload(el,state.settings.badgeIcons,renderImages);});
+}
+
 function renderSettings(){
  const s=state.settings;
  const colors={heroTitleColor:s.heroTitleColor||'#ffffff',heroSubtitleColor:s.heroSubtitleColor||'#c5e4e4',heroEyebrowColor:s.heroEyebrowColor||'#aeebe3',heroBadgeColor:s.heroBadgeColor||'#ffffff',
  bodyTextColor:s.bodyTextColor||'#142a3a',mutedTextColor:s.mutedTextColor||'#617285',sectionTitleColor:s.sectionTitleColor||'#142a3a',categoryTitleColor:s.categoryTitleColor||'#142a3a',categorySubtitleColor:s.categorySubtitleColor||'#6d7e8c',diagnosisTitleColor:s.diagnosisTitleColor||'#142a3a',linkTextColor:s.linkTextColor||'#08757c',buttonTextColor:s.buttonTextColor||'#ffffff',footerTextColor:s.footerTextColor||'#617285'};
  $('workspace').innerHTML=header('Загвар ба текст','Лого, дэвсгэр зураг, icon, фонт, бүх бичвэрийн өнгө, хэмжээ эндээс солигдоно. «Нийтлэх» хүртэл нийтийн сайт өөрчлөгдөхгүй.')+
- `<div class="preview" id="sample"><img id="sampleLogo" class="previewImg" style="display:${s.logoImage?'block':'none'};width:${Number(s.logoWidth)||130}px;max-height:70px;background:transparent;border:0" src="${esc(s.logoImage||'')}" alt=""><div class="sampleTop"><div id="sampleEyebrow" class="eyebrow">${esc(s.eyebrow)}</div><span class="samplePill" id="sampleBadge">ӨОУА-10 · Сонгомол кодын сан</span></div><strong id="sampleTitle">${esc(s.title)}</strong><div id="sampleSub">${esc(s.subtitle)}</div></div><hr class="divider">`+
+ `<div class="preview" id="sample"><img id="sampleLogo" class="previewImg" style="display:${s.logoImage?'block':'none'};width:${Number(s.logoWidth)||130}px;max-height:70px;background:transparent;border:0" src="${esc(s.logoImage||'')}" alt=""><div class="sampleTop"><div id="sampleEyebrow" class="eyebrow">${esc(s.eyebrow)}</div><span class="samplePill" id="sampleBadge">${esc(s.uiText?.heroBadge??UI_DEFAULTS.heroBadge)}</span></div><strong id="sampleTitle">${esc(s.title)}</strong><div id="sampleSub">${esc(s.subtitle)}</div></div><hr class="divider">`+
  `<h3 class="themeSection">1. Сайтын гарчиг болон лого</h3><div class="fields2"><div>${field('Сайтын гарчиг','title',s.title,{required:true})}${field('Дээд жижиг бичвэр','eyebrow',s.eyebrow)}</div><div>${field('Сайтын тайлбар','subtitle',s.subtitle,{textarea:true})}</div></div>`+
  imageInput('Дээд хэсгийн лого оруулах','logoImage',s.logoImage||'','logo')+field('Логоны өргөн (48–360 px)','logoWidth',s.logoWidth||130,{type:'number'})+
  `<h3 class="themeSection">2. Background зураг</h3><div class="fields2"><div>${field('Үндсэн дэвсгэр өнгө','brand',s.brand,{type:'color'})}</div><div>${field('Хоёрдогч дэвсгэр өнгө','brand2',s.brand2,{type:'color'})}</div></div>`+
  imageInput('Дээд хэсгийн background зураг','heroBackgroundImage',s.heroBackgroundImage||'','hero')+
  imageInput('Бүх хуудасны background зураг (заавал биш)','pageBackgroundImage',s.pageBackgroundImage||'','page')+
  field('Дээд зураг дээрх бараан давхарга (%)','heroOverlay',s.heroOverlay??20,{type:'number'})+
- `<h3 class="themeSection">3. Фонт болон үсгийн хэмжээ</h3><div class="fields2"><div>${fontSelect('Ерөнхий бичвэрийн фонт','fontFamily',s.fontFamily||'Inter')}${field('Ерөнхий фонтын хэмжээ (12–21 px)','baseFontSize',s.baseFontSize||15,{type:'number'})}</div><div>${fontSelect('Гарчиг, ангиллын фонт','headingFontFamily',s.headingFontFamily||'Inter')}${field('Дээд гарчгийн хэмжээ (22–64 px)','heroTitleSize',s.heroTitleSize||36,{type:'number'})}</div></div>`+
+ `<h3 class="themeSection">3. Үсгийн фонт болон хэмжээ</h3><p class="hint">Хэсэг бүрийн фонтыг тусад нь сонгоно. Сонгосон системийн фонт тухайн төхөөрөмжид байхгүй бол ойролцоо фонт руу шилжинэ.</p>
+ <div class="fields2"><div>
+ ${fontSelect('Ерөнхий бичвэр','fontFamily',s.fontFamily||'Inter')}
+ ${fontSelect('Дээд том гарчиг','headingFontFamily',s.headingFontFamily||s.fontFamily||'Inter')}
+ ${fontSelect('Дээд тайлбар','heroSubtitleFontFamily',s.heroSubtitleFontFamily||s.fontFamily||'Inter')}
+ ${fontSelect('Дээд жижиг бичвэр','eyebrowFontFamily',s.eyebrowFontFamily||s.fontFamily||'Inter')}
+ ${fontSelect('Хэсгийн гарчиг','sectionFontFamily',s.sectionFontFamily||s.headingFontFamily||'Inter')}
+ ${fontSelect('9 ангиллын нэр','categoryFontFamily',s.categoryFontFamily||s.headingFontFamily||'Inter')}
+ </div><div>
+ ${fontSelect('Оношийн нэр, эмийн мэдээлэл','diagnosisFontFamily',s.diagnosisFontFamily||s.fontFamily||'Inter')}
+ ${fontSelect('Товчлуур, хайлт','buttonFontFamily',s.buttonFontFamily||s.fontFamily||'Inter')}
+ ${fontSelect('Шошго, ICD код','badgeFontFamily',s.badgeFontFamily||s.fontFamily||'Inter')}
+ ${fontSelect('Админ самбарын фонт','adminFontFamily',s.adminFontFamily||'Inter')}
+ ${field('Ерөнхий фонтын хэмжээ (12–21 px)','baseFontSize',s.baseFontSize||15,{type:'number'})}
+ ${field('Дээд гарчгийн хэмжээ (22–64 px)','heroTitleSize',s.heroTitleSize||36,{type:'number'})}
+ </div></div>
+ <h4 class="themeSection">Хэсэг тус бүрийн үсгийн хэмжээ</h4>
+ <div class="fields2"><div>
+ ${field('Дээд тайлбарын хэмжээ (11–24 px)','heroSubtitleSize',s.heroSubtitleSize||14,{type:'number'})}
+ ${field('Ангиллын нэрийн хэмжээ (11–22 px)','categoryTitleSize',s.categoryTitleSize||14,{type:'number'})}
+ ${field('Оношийн нэрийн хэмжээ (12–22 px)','diagnosisFontSize',s.diagnosisFontSize||14,{type:'number'})}
+ </div><div>
+ ${field('Хэсгийн гарчгийн хэмжээ (14–30 px)','sectionTitleSize',s.sectionTitleSize||18,{type:'number'})}
+ ${field('Товчны үсгийн хэмжээ (11–20 px)','buttonFontSize',s.buttonFontSize||13,{type:'number'})}
+ ${field('Шошгоны хэмжээ (9–17 px)','badgeFontSize',s.badgeFontSize||11,{type:'number'})}
+ </div></div>
+ <div class="fontDemo" aria-live="polite"><div class="fontDemoTitle" id="sampleSection">Эрхтэн тогтолцоо ба бүтээгдэхүүний ангилал</div><div class="fontDemoGrid"><div id="sampleCategory">Зүрх, судас · Даралт, зүрх, өөх тос</div><div id="sampleDiagnosis">I10 · Анхдагч артерийн гипертензи</div><button class="btn" type="button" id="sampleButton" disabled>Эмийн жагсаалт</button><span class="fontDemoBadge" id="sampleKind">Заалт шалгах</span></div></div>`+
  `<h3 class="themeSection">4. Дээд хэсгийн текстийн өнгө</h3><button class="btn colorPreset" type="button" id="grayPreset">Дээд хэсгийн бүх бичвэрийг саарал болгох (#374151)</button>`+
  `<div class="fields2"><div>${field('Том гарчгийн өнгө','heroTitleColor',colors.heroTitleColor,{type:'color'})}${field('Тайлбарын өнгө','heroSubtitleColor',colors.heroSubtitleColor,{type:'color'})}</div><div>${field('Жижиг бичвэрийн өнгө','heroEyebrowColor',colors.heroEyebrowColor,{type:'color'})}${field('Баруун шошгоны өнгө','heroBadgeColor',colors.heroBadgeColor,{type:'color'})}</div></div>`+
  `<h3 class="themeSection">5. Бусад бүх бичвэрийн өнгө</h3><button class="btn colorPreset" type="button" id="allGrayPreset">Бүх бичвэрийг бараан саарал болгох</button>`+
@@ -103,11 +171,27 @@ function renderSettings(){
   $('sampleEyebrow').style.color=s.heroEyebrowColor||colors.heroEyebrowColor;$('sampleBadge').style.color=s.heroBadgeColor||colors.heroBadgeColor;
   $('sampleTitle').style.fontFamily=fontStacks[s.headingFontFamily]||fontStacks.Inter;
   $('sampleTitle').style.fontSize=Math.min(36,Number(s.heroTitleSize)||36)+'px';
+  $('sampleSub').style.fontFamily=fontStacks[s.heroSubtitleFontFamily]||fontStacks[s.fontFamily]||fontStacks.Inter;
+  $('sampleSub').style.fontSize=(Number(s.heroSubtitleSize)||14)+'px';
+  $('sampleEyebrow').style.fontFamily=fontStacks[s.eyebrowFontFamily]||fontStacks[s.fontFamily]||fontStacks.Inter;
+  $('sampleBadge').style.fontFamily=fontStacks[s.badgeFontFamily]||fontStacks[s.fontFamily]||fontStacks.Inter;
+  $('sampleBadge').style.fontSize=(Number(s.badgeFontSize)||11)+'px';
+  $('sampleSection').style.fontFamily=fontStacks[s.sectionFontFamily]||fontStacks[s.headingFontFamily]||fontStacks.Inter;
+  $('sampleSection').style.fontSize=(Number(s.sectionTitleSize)||18)+'px';
+  $('sampleCategory').style.fontFamily=fontStacks[s.categoryFontFamily]||fontStacks[s.headingFontFamily]||fontStacks.Inter;
+  $('sampleCategory').style.fontSize=(Number(s.categoryTitleSize)||14)+'px';
+  $('sampleDiagnosis').style.fontFamily=fontStacks[s.diagnosisFontFamily]||fontStacks[s.fontFamily]||fontStacks.Inter;
+  $('sampleDiagnosis').style.fontSize=(Number(s.diagnosisFontSize)||14)+'px';
+  $('sampleButton').style.fontFamily=fontStacks[s.buttonFontFamily]||fontStacks[s.fontFamily]||fontStacks.Inter;
+  $('sampleButton').style.fontSize=(Number(s.buttonFontSize)||13)+'px';
+  $('sampleKind').style.fontFamily=fontStacks[s.badgeFontFamily]||fontStacks[s.fontFamily]||fontStacks.Inter;
+  $('sampleKind').style.fontSize=(Number(s.badgeFontSize)||11)+'px';
+  document.body.style.fontFamily=fontStacks[s.adminFontFamily]||fontStacks.Inter;
   const logo=$('sampleLogo');logo.style.display=s.logoImage?'block':'none';logo.src=s.logoImage||'';logo.style.width=(Number(s.logoWidth)||130)+'px';
  }
  $('workspace').querySelectorAll('[data-key]').forEach(el=>el.oninput=()=>{
   let value=el.type==='number'?Number(el.value):el.value;
-  if(el.type==='number'){const limits={logoWidth:[48,360],heroOverlay:[0,85],baseFontSize:[12,21],heroTitleSize:[22,64]};if(limits[el.dataset.key])value=Math.min(limits[el.dataset.key][1],Math.max(limits[el.dataset.key][0],value||0));}
+  if(el.type==='number'){const limits={logoWidth:[48,360],heroOverlay:[0,85],baseFontSize:[12,21],heroTitleSize:[22,64],heroSubtitleSize:[11,24],sectionTitleSize:[14,30],categoryTitleSize:[11,22],diagnosisFontSize:[12,22],buttonFontSize:[11,20],badgeFontSize:[9,17]};if(limits[el.dataset.key])value=Math.min(limits[el.dataset.key][1],Math.max(limits[el.dataset.key][0],value||0));}
   s[el.dataset.key]=value;mark();updatePreview();
  });
  function setColors(keys){keys.forEach(key=>{s[key]='#374151';const el=$('workspace').querySelector(`[data-key="${key}"]`);if(el)el.value='#374151'});mark();updatePreview()}
@@ -137,7 +221,7 @@ function renderProducts(){let p=state.products.find(x=>x.id===selectedProduct)||
  $('deleteProduct').onclick=()=>{if(!confirm('Энэ бүтээгдэхүүнийг устгах уу? Түүнтэй холбогдсон оношийн холбоосууд мөн арилна.'))return;state.products=state.products.filter(x=>x.id!==p.id);state.diagnoses.forEach(d=>d.products=d.products.filter(k=>k!==p.id));selectedProduct=state.products[0]?.id||'';mark();renderProducts();};}
 function renderDiagnoses(){let dx=state.diagnoses.find(x=>x.cat+'|'+x.code===selectedDiagnosis)||state.diagnoses[0];selectedDiagnosis=dx?dx.cat+'|'+dx.code:'';$('workspace').innerHTML=header('Оношийн код',`${state.diagnoses.length} мөр · код, тайлбар, эмийн бүтээгдэхүүний холбоосыг засна`, '<button class="btn primary" id="addDx">+ Онош нэмэх</button>')+
 `<div class="subgrid"><div class="selectlist">${state.diagnoses.map(d=>{let val=d.cat+'|'+d.code;return `<button class="listbutton ${val===selectedDiagnosis?'active':''}" data-dx="${esc(val)}"><strong>${esc(d.code||'ШИНЭ')}</strong> · ${esc(d.name||'Нэр оруулах')}</button>`}).join('')}</div><div class="editor">${!dx?'<div class="muted">Оношийн жагсаалт хоосон.</div>':
-`<div class="fields2">${field('ICD‑10 код','code',dx.code,{placeholder:'I10'})}<div class="field"><label>Ангилал</label><select data-key="cat">${state.categories.map(c=>`<option value="${c.id}" ${c.id===dx.cat?'selected':''}>${esc(c.short)}</option>`).join('')}</select></div></div>${field('Оношийн Монгол нэр','name',dx.name)}<div class="fields2">${field('Кодын бүлэг','block',dx.block,{placeholder:'I10–I15'})}${field('Кодын бүлгийн тайлбар','blockName',dx.blockName)}</div><div class="field"><label>Холбооны төрөл</label><select data-key="kind">${Object.entries(kinds).map(([k,v])=>`<option value="${k}" ${k===dx.kind?'selected':''}>${v}</option>`).join('')}</select></div>${field('Эмнэлзүйн тайлбар / анхааруулга','note',dx.note,{textarea:true})}<div class="field"><label>Холбогдох эм, бэлдмэл</label><div class="chips">${state.products.map(p=>`<label><input type="checkbox" data-linked="${esc(p.id)}" ${dx.products.includes(p.id)?'checked':''}> ${esc(p.name)}</label>`).join('')}</div></div><hr class="divider"><button id="deleteDx" class="btn danger">Оношийн мөр устгах</button>`}</div></div>`;
+`<div class="fields2">${field('ICD‑10 код','code',dx.code,{placeholder:'I10'})}<div class="field"><label>Ангилал</label><select data-key="cat">${state.categories.map(c=>`<option value="${c.id}" ${c.id===dx.cat?'selected':''}>${esc(c.short)}</option>`).join('')}</select></div></div>${field('Оношийн Монгол нэр','name',dx.name)}<div class="fields2">${field('Кодын бүлэг','block',dx.block,{placeholder:'I10–I15'})}${field('Кодын бүлгийн тайлбар','blockName',dx.blockName)}</div><div class="field"><label>Холбооны төрөл</label><select data-key="kind">${Object.entries(kinds).map(([k,v])=>`<option value="${k}" ${k===dx.kind?'selected':''}>${esc(state.settings.uiText?.['kind_'+k]??v)}</option>`).join('')}</select></div>${field('Эмнэлзүйн тайлбар / анхааруулга','note',dx.note,{textarea:true})}<div class="field"><label>Холбогдох эм, бэлдмэл</label><div class="chips">${state.products.map(p=>`<label><input type="checkbox" data-linked="${esc(p.id)}" ${dx.products.includes(p.id)?'checked':''}> ${esc(p.name)}</label>`).join('')}</div></div><hr class="divider"><button id="deleteDx" class="btn danger">Оношийн мөр устгах</button>`}</div></div>`;
  $('addDx').onclick=()=>{let cat='heart',d={cat,block:'',blockName:'',code:'',name:'',products:[],kind:'context',note:''};state.diagnoses.unshift(d);selectedDiagnosis=cat+'|';mark();renderDiagnoses();};
  $('workspace').querySelectorAll('[data-dx]').forEach(b=>b.onclick=()=>{selectedDiagnosis=b.dataset.dx;renderDiagnoses()});
  if(!dx)return;
@@ -167,7 +251,9 @@ async function loadAdmin() {
   const result=await r.json();
   if(r.status===401){showLogin();return;}
   if(!r.ok)throw new Error(result.error||'Нэвтрэх эрх эсвэл D1 тохиргоо буруу.');
-  state=result.data;revision=result.revision;clean();render();
+  state=result.data;revision=result.revision;
+  document.body.style.fontFamily=fontStacks[state.settings?.adminFontFamily]||fontStacks.Inter;
+  clean();render();
   $('adminMain').hidden=false;$('adminControls').hidden=false;$('loginPanel').hidden=true;
  }catch(e){showLogin('Админ мэдээлэл ачаалах алдаа: '+e.message);}
 }
