@@ -138,4 +138,52 @@ fetch('/api/content',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(result
  applyUiText();
  render();
 }).catch(()=>{});
-</script></body></html>
+</script><script>
+/* ICD-10: D1 админд хадгалсан эмийн зааврын URL-ийг нэр дээр дарахад нээнэ. */
+(() => {
+  const productsNow = () => {
+    try { return Array.isArray(PRODUCTS) ? PRODUCTS : []; }
+    catch (_) { return []; }
+  };
+  const safeHref = value => {
+    try {
+      const url = new URL(String(value || '').trim());
+      return url.protocol === 'https:' ? url.href : '';
+    } catch (_) { return ''; }
+  };
+  const linkify = () => {
+    const products = productsNow();
+    document.querySelectorAll('.detailsrow span.med, .productLine div.productName')
+      .forEach(el => {
+        const name = Array.from(el.childNodes)
+          .filter(n => n.nodeType === 3)
+          .map(n => n.textContent)
+          .join('').trim();
+        const product = products.find(p => p.name === name);
+        const href = safeHref(product && product.source);
+        if (!href) return; // URL байхгүй бол энгийн текст хэвээр
+        const a = document.createElement('a');
+        a.className = el.className + ' instructionNameLink';
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.title = name + ' — хэрэглэх зааврыг нээх';
+        a.innerHTML = el.innerHTML;
+        el.replaceWith(a);
+      });
+  };
+  const style = document.createElement('style');
+  style.textContent = 'a.instructionNameLink{color:inherit;text-decoration:none;cursor:pointer}' +
+    'a.instructionNameLink:hover{color:#14747c;text-decoration:underline;border-color:#27888a}' +
+    'a.instructionNameLink:focus-visible{outline:3px solid #43b8b2;outline-offset:3px}';
+  document.head.appendChild(style);
+  let pending = false;
+  new MutationObserver(() => {
+    if (pending) return;
+    pending = true;
+    queueMicrotask(() => { pending = false; linkify(); });
+  }).observe(document.body, {childList:true, subtree:true});
+  linkify();
+})();
+</script>
+</body></html>
